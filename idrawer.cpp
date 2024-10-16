@@ -1,17 +1,28 @@
 #include "idrawer.hpp"
 #include "ishape.hpp"
-//#include "raylib.h"
+#include <cmath>
+//#include "raylib" 
 
 namespace idrawer {
-    ConsoleDrawer::ConsoleDrawer() {
+
+    BasicDrawer::BasicDrawer() {
         for (int i = 0; i < Len; ++i) {
             for (int j = 0; j < Len; ++j) {
-                canvas[i][j] = ' ';
+                canvas[i][j] = ' ';  
             }
         }
     }
 
-    void ConsoleDrawer::Draw_Line(ishape::Point& p1, ishape::Point& p2) {
+    void BasicDrawer::Show_Screen() const {
+        for (int i = 0; i < Len; i++) {
+            for (int j = 0; j < Len; j++) {
+                std::cout << canvas[i][j]; 
+            }
+            std::cout << std::endl;
+        }
+    }
+
+    void BasicDrawer::Draw_Line(ishape::Point& p1, ishape::Point& p2) {
         int x1 = p1.x, y1 = p1.y;
         int x2 = p2.x, y2 = p2.y;
 
@@ -22,14 +33,15 @@ namespace idrawer {
         int err = dx - dy;
 
         while (true) {
-            if (x1 >= 0 && x1 < Len && y1 >= 0 && y1 < Len)
-                canvas[y1][x1] = '*';
+            if (x1 >= 0 && x1 < Len && y1 >= 0 && y1 < Len) {
+                canvas[y1][x1] = '*'; 
+            }
 
-            if (x1 == x2 && y1 == y2)
+            if (x1 == x2 && y1 == y2) {
                 break;
+            }
 
             int e2 = 2 * err;
-
             if (e2 > -dy) {
                 err -= dy;
                 x1 += sx;
@@ -40,6 +52,17 @@ namespace idrawer {
                 y1 += sy;
             }
         }
+    }
+    void BasicDrawer::DrawPoint(ishape::Point& p) {
+        if (p.x >= 0 && p.x < Len && p.y >= 0 && p.y < Len) {
+            canvas[p.y][p.x] = '*';  
+        }
+    }
+
+    ConsoleDrawer::ConsoleDrawer() : BasicDrawer() {
+    }
+    void ConsoleDrawer::Draw_Line(ishape::Point& p1, ishape::Point& p2) {
+        BasicDrawer::Draw_Line(p1, p2);  
     }
 
     void ConsoleDrawer::DrawCircle(ishape::Point& center, int radius) {
@@ -57,16 +80,11 @@ namespace idrawer {
     }
 
     void ConsoleDrawer::Show_Screen() const {
-        for (int i = 0; i < Len; i++) {
-            for (int j = 0; j < Len; j++) {
-                std::cout << canvas[i][j];
-            }
-            std::cout << std::endl;
-        }
+        BasicDrawer::Show_Screen();  
     }
 
-
-   /* RaylibDrawer::RaylibDrawer() {
+    /*
+    RaylibDrawer::RaylibDrawer() {
         InitWindow(800, 600, "Raylib Drawing Example");
         SetTargetFPS(60);
     }
@@ -90,11 +108,10 @@ namespace idrawer {
             DrawLine(p2.x, p2.y, p3.x, p3.y, BLACK);
             DrawLine(p3.x, p3.y, p1.x, p1.y, BLACK);
 
-            //DrawCircle(center.x, center.y, radius, BLACK);
+            DrawCircle(center.x, center.y, radius, BLACK);
 
             EndDrawing();
         }
-    }*/
-
+    }
+    */
 }
-

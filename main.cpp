@@ -1,27 +1,14 @@
-#include "ishape.hpp"
-#include "idrawer.hpp"
+#include "interface.hpp"
+#include <locale.h>
 
 int main() {
-    ishape::Point p1(10, 5);
-    ishape::Point p2(40, 5);
-    ishape::Point p3(25, 20);
+    setlocale(LC_ALL, "Russian");
 
-    ishape::Triangle triangle(p1, p2, p3);
+    std::shared_ptr<idrawer::IDrawer> drawer = selectDrawer();
 
-    ishape::Point center(25, 25);
-    ishape::Circle circle(center, 10);
+    selectShape(drawer);
 
-    idrawer::ConsoleDrawer consoleDrawer;
-    //idrawer::RaylibDrawer raylibDrawer;
-
-    triangle.Draw(consoleDrawer);
-
-    //circle.Draw(consoleDrawer);
-
-    consoleDrawer.Show_Screen();
-
-    //raylibDrawer.Show_Screen();
-
+    drawer->Show_Screen();
 
     return 0;
 }

@@ -1,10 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-
-namespace idrawer {
-    class IDrawer;
-}
+#include "idrawer.hpp"
 
 namespace ishape {
 
@@ -17,30 +14,36 @@ namespace ishape {
         Point(int x, int y);
     };
 
-    class Shape {
-    protected:
-        std::vector<Point> points;
+    class IShape {
     public:
-
-        std::vector<Point> GetCoords();
-        virtual void Draw(idrawer::IDrawer& dr) = 0;
-
+        virtual ~IShape() = default;
+        virtual void Draw(idrawer::IDrawer& dr) = 0;        
+        virtual std::vector<Point> GetCoords() const = 0;    
     };
 
-    class Triangle :public Shape
-    {
+    class Shape : public IShape {
+    protected:
+        std::vector<Point> points; 
+    public:
+        std::vector<Point> GetCoords() const override {
+            return points;
+        }
+    };
+    class Triangle : public Shape {
     public:
         Triangle(Point p1, Point p2, Point p3);
-        virtual void Draw(idrawer::IDrawer& dr);
-
+        void Draw(idrawer::IDrawer& dr) override;
     };
 
-    class Circle :public Shape
-    {
+    class Circle : public Shape {
     private:
-        int radius;
+        int radius; 
     public:
-        Circle(Point centr, int radius);
-        virtual void Draw(idrawer::IDrawer& dr);
+        
+        Circle(Point center, int radius);
+        void Draw(idrawer::IDrawer& dr) override;
     };
-};
+
+    void DrawShapes(const std::vector<IShape*>& shapes, idrawer::IDrawer& drawer);
+
+}

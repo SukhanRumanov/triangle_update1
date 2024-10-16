@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="idrawer.cpp" />
+    <ClCompile Include="interface.cpp" />
     <ClCompile Include="ishape.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="idrawer.hpp" />
+    <ClInclude Include="interface.hpp" />
     <ClInclude Include="ishape.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
